@@ -20,7 +20,7 @@ All request to these methods must contain the following headers:
 * **X-SIGNATURE** - query’s POST data, sorted by keys and signed by your key’s **“secret”** according to the HMAC-SHA256 method.
 * **X-NONCE** - integer value, must be greater then nonce in previous api call.
 
-#### ** Node.js **
+#### Node.js
 
 ```js
 var crypto = require('crypto')
@@ -36,5 +36,171 @@ var createSignature = function (options, secret) {
   hmac = crypto.createHmac('sha256', secret)
   hmac.update(payload)
   hmac.digest('hex')
+}
+```
+
+# Locks
+
+## List all locks
+
+!> This method requires authorization.
+
+<details>
+  <summary>Click to expand</summary>
+  
+  Returns information about all available locks.
+
+  **HTTP Request**
+
+  `GET https://apartx.co/api/v1/locks`
+
+  **Query parameters**
+
+  | Parameter | Required | Description |
+  | --------- | ------- | ----------- |
+  | limit | No | Limit |
+  | page | No | Page number |
+
+  #### ** Node.js **
+
+  ```js
+  var request = require('request');
+
+  var params = {
+
+  }
+
+  request.get({
+      url: 'https://apartx.co/api/v1/locks',
+      headers: getAuthHeaders(params)
+    }, function (error, response, body) {
+      // process response
+    }
+  );
+  ```
+
+  > Example output
+
+  ```json
+  [
+    {
+      "_id": "lockId",
+      "name": "LOCK_NAME",
+      "userId": "userId",
+      "brand": "lockBrand"
+     }
+  ]
+  ```
+</details>
+
+## List passcodes of lock
+
+!> This method requires authorization.
+
+Returns information about all generated passcodes for given lock.
+
+**HTTP Request**
+
+`GET https://apartx.co/api/v1/locks/:lockId/passcodes`
+
+**Url parameters**
+| Parameter | Description |
+| --------- | ----------- |
+| lockId | ID of lock |
+
+**Query parameters**
+
+| Parameter | Required | Description |
+| --------- | ------- | ----------- |
+| limit | No | Limit |
+| page | No | Page number |
+
+#### ** Node.js **
+
+```js
+var request = require('request');
+
+var params = {
+
+}
+var lockId = 'lockId'
+
+request.get({
+    url: `https://apartx.co/api/v1/locks/${lockId}/passcodes`,
+    headers: getAuthHeaders(params)
+  }, function (error, response, body) {
+    // process response
+  }
+);
+```
+
+> Example output
+
+```json
+[
+  {
+    "_id": "passcodeId",
+    "lockId": "lockId",
+    "passcode": "LOCK_NAME",
+    "startDate": "",
+    "endDate": ""
+   }
+]
+```
+
+
+## Create Passcode
+
+!> This method requires authorization.
+
+Create new passcode for lock.
+
+**HTTP Request**
+
+`POST https://apartx.co/api/v1/locks/:lockId/passcodes`
+
+**Url parameters**
+| Parameter | Description |
+| --------- | ----------- |
+| lockId | ID of lock |
+
+**Post parameters**
+
+| Parameter | Description |
+| --------- | ----------- |
+| startDate | Passcode start time (Date format YYYY-MM-DD HH:mm) |
+| endDate | Passcode end date (Date format YYYY-MM-DD HH:mm) |
+
+#### ** Node.js **
+
+```js
+var request = require('request');
+
+var params = {
+    lockId: 'lockId',
+    startDate: '2020-01-01 15:00'
+    endDate: '2020-01-01 16:00'
+};
+var lockId = 'lockId'
+
+request.post({
+    url: `https://apartx.co/api/v1/locks/${lockId}/passcodes`,
+    form: params,
+    headers: getAuthHeaders(params)
+  }, function (error, response, body) {
+    // process response
+  }
+);
+```
+
+> Example output
+
+```json
+{
+  "success": true,
+  "_id": "",
+  "passcode": "1234567890",
+  "startDate": "",
+  "endDate": ""
 }
 ```
