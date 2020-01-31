@@ -45,53 +45,49 @@ var createSignature = function (options, secret) {
 
 !> This method requires authorization.
 
-<details>
-  <summary>Click to expand</summary>
-  
-  Returns information about all available locks.
+Returns information about all available locks.
 
-  **HTTP Request**
+**HTTP Request**
 
-  `GET https://apartx.co/api/v1/locks`
+`GET https://apartx.co/api/v1/locks`
 
-  **Query parameters**
+**Query parameters**
 
-  | Parameter | Required | Description |
-  | --------- | ------- | ----------- |
-  | limit | No | Limit |
-  | page | No | Page number |
+| Parameter | Required | Description |
+| --------- | ------- | ----------- |
+| limit | No | Limit |
+| page | No | Page number |
 
-  #### ** Node.js **
+#### ** Node.js **
 
-  ```js
-  var request = require('request');
+```js
+var request = require('request');
 
-  var params = {
+var params = {
 
+}
+
+request.get({
+    url: 'https://apartx.co/api/v1/locks',
+    headers: getAuthHeaders(params)
+  }, function (error, response, body) {
+    // process response
   }
+);
+```
 
-  request.get({
-      url: 'https://apartx.co/api/v1/locks',
-      headers: getAuthHeaders(params)
-    }, function (error, response, body) {
-      // process response
-    }
-  );
-  ```
+> Example output
 
-  > Example output
-
-  ```json
-  [
-    {
-      "_id": "lockId",
-      "name": "LOCK_NAME",
-      "userId": "userId",
-      "brand": "lockBrand"
-     }
-  ]
-  ```
-</details>
+```json
+[
+  {
+    "_id": "lockId",
+    "name": "LOCK_NAME",
+    "userId": "userId",
+    "brand": "lockBrand"
+   }
+]
+```
 
 ## List passcodes of lock
 
@@ -104,6 +100,7 @@ Returns information about all generated passcodes for given lock.
 `GET https://apartx.co/api/v1/locks/:lockId/passcodes`
 
 **Url parameters**
+
 | Parameter | Description |
 | --------- | ----------- |
 | lockId | ID of lock |
@@ -160,6 +157,7 @@ Create new passcode for lock.
 `POST https://apartx.co/api/v1/locks/:lockId/passcodes`
 
 **Url parameters**
+
 | Parameter | Description |
 | --------- | ----------- |
 | lockId | ID of lock |
