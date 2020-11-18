@@ -61,30 +61,42 @@ Returns information about all available locks.
 #### ** Node.js **
 
 ```js
-var request = require('request');
+let axios = require('axios');
 
-var params = {
-
+let params = {
+  limit: 1
 }
 
-request.get({
-    url: 'https://apartx.co/api/v1/locks',
-    headers: getAuthHeaders(params)
-  }, function (error, response, body) {
-    // process response
-  }
-);
+axios.get('https://apartx.co/api/v1/locks', {
+  params
+  headers: getAuthHeaders(params)
+}).then((result) => {
+  // console.log(result)
+  // {
+  //   "locks": [
+  //     {
+  //       "_id": "FiTLosPF2BHMZLxTB",
+  //       "name": "2017MM_6dd5b5",
+  //       "subscription": {
+  //         "type": "monthly",
+  //         "endedAt": 1607883916
+  //       }
+  //     }
+  //   ],
+  //   "total": 3
+  // }
+});
 ```
 
-> Example output
+> Response schema
 
 ```ts
 {
-  locks: [{
+  locks: Array<Lock> [{
     "_id": String,
     "name": String,
     "userId": String,
-    "subscription": Object
+    "subscription": Subscription
   }],
   total: Number
 }
@@ -95,7 +107,7 @@ request.get({
 ```ts
 {
   type: 'montly' | 'pay_per_key',
-  endedAt: Number
+  endedAt: Number | null // Unix timestamp in seconds. Present only if type is 'monthly'
 }
 ```
 
@@ -125,30 +137,43 @@ Returns information about all generated passcodes for given lock.
 #### ** Node.js **
 
 ```js
-var request = require('request');
+const axios = require('axios');
 
-var params = {
+let lockId = 'lockId';
+let params = {
+  limit: 1
+};
 
-}
-var lockId = 'lockId'
-
-request.get({
-    url: `https://apartx.co/api/v1/locks/${lockId}/passcodes`,
-    headers: getAuthHeaders(params)
-  }, function (error, response, body) {
-    // process response
-  }
-);
+axios.get(`https://apartx.co/api/v1/locks/${lockId}/passcodes`, {
+  params,
+  headers: getAuthHeaders(params)
+}).then((result) => {
+  // result.passcodes -> Array of passcodes
+  // result.total -> Total count
+  // console.log(result)
+  // {
+  //   "passcodes": [
+  //     {
+  //       "_id": "kW4YAsFZNKHKwqLCR",
+  //       "lockId": "PApu2XWr7DmEQ6aRC",
+  //       "passcode": "10249815",
+  //       "startTime": 1605693575,
+  //       "endTime": 1605697167,
+  //       "createdAt": 1605695582
+  //     }
+  //   ],
+  //   "total": 12
+  // }
+});
 ```
 
-> Example output
+> Response schema
 
 ```ts
 {
-  passcodes: [{
+  passcodes: Array<Passcode> [{
     "_id": String,
     "lockId": String,
-    "createdBy": String,
     "passcode": String,
     "startTime": Number,
     "endTime": Number,
@@ -179,34 +204,37 @@ Create new passcode for lock.
 
 | Parameter | Description |
 | --------- | ----------- |
-| startTime | Passcode start time (Date format YYYY-MM-DD HH:mm) |
-| endTime | Passcode end date (Date format YYYY-MM-DD HH:mm) |
+| startTime | Passcode start time (Date format **Unix timestamp in seconds**) |
+| endTime | Passcode end date (Date format **Unix timestamp in seconds**) |
 
 #### ** Node.js **
 
 ```js
-var request = require('request');
+const axios = require('axios');
 
-var params = {
-    lockId: 'lockId',
-    startTime: '2020-01-01 15:00'
-    endTime: '2020-01-01 16:00'
+let lockId = 'p6ta3scW2L8qaL83z';
+let params = {
+    startTime: 1605722400,
+    endTime: 1605726000
 };
-var lockId = 'lockId'
 
-request.post({
-    url: `https://apartx.co/api/v1/locks/${lockId}/passcodes`,
-    form: params,
-    headers: getAuthHeaders(params)
-  }, function (error, response, body) {
-    // process response
-  }
-);
+axios.post(`https://apartx.co/api/v1/locks/${lockId}/passcodes`, {
+  data: params,
+  headers: getAuthHeaders(params)
+}).then((result) => {
+  // console.log(result);
+  // {
+  //   _id: 'bES5Wewa4FcwZZTv3',
+  //   passcode: '3334584630',
+  //   startTime: 1605722400,
+  //   endTime: 1605726000
+  // }
+});
 ```
 
-> Example output
+> Response schema
 
-```json
+```ts
 {
   "_id": String,
   "passcode": String,
