@@ -78,15 +78,25 @@ request.get({
 
 > Example output
 
-```json
-[
-  {
-    "_id": "lockId",
-    "name": "LOCK_NAME",
-    "userId": "userId",
-    "brand": "lockBrand"
-   }
-]
+```ts
+{
+  locks: [{
+    "_id": String,
+    "name": String,
+    "userId": String,
+    "subscription": Object
+  }],
+  total: Number
+}
+```
+
+> Subscription Schema
+
+```ts
+{
+  type: 'montly' | 'pay_per_key',
+  endedAt: Number
+}
 ```
 
 ## List passcodes of lock
@@ -133,16 +143,19 @@ request.get({
 
 > Example output
 
-```json
-[
-  {
-    "_id": "passcodeId",
-    "lockId": "lockId",
-    "passcode": "LOCK_NAME",
-    "startTime": "",
-    "endTime": ""
-   }
-]
+```ts
+{
+  passcodes: [{
+    "_id": String,
+    "lockId": String,
+    "createdBy": String,
+    "passcode": String,
+    "startTime": Number,
+    "endTime": Number,
+    "createdAt": Number
+  }],
+  total: Number
+}
 ```
 
 
@@ -195,10 +208,9 @@ request.post({
 
 ```json
 {
-  "success": true,
-  "_id": "",
-  "passcode": "1234567890",
-  "startTime": "",
-  "endTime": ""
+  "_id": String,
+  "passcode": String,
+  "startTime": Number,
+  "endTime": Number
 }
 ```
