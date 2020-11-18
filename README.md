@@ -96,18 +96,12 @@ axios.get('https://apartx.co/api/v1/locks', {
     "_id": String,
     "name": String,
     "userId": String,
-    "subscription": Subscription
+    "subscription": Subscription {
+      "type": "montly" | "pay_per_key",
+      "endedAt": Number | null // Unix timestamp in seconds. Present only if type is 'monthly'
+    }
   }],
   total: Number
-}
-```
-
-> Subscription Schema
-
-```ts
-{
-  type: 'montly' | 'pay_per_key',
-  endedAt: Number | null // Unix timestamp in seconds. Present only if type is 'monthly'
 }
 ```
 
