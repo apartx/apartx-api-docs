@@ -139,8 +139,8 @@ request.get({
     "_id": "passcodeId",
     "lockId": "lockId",
     "passcode": "LOCK_NAME",
-    "startDate": "",
-    "endDate": ""
+    "startTime": "",
+    "endTime": ""
    }
 ]
 ```
@@ -166,8 +166,8 @@ Create new passcode for lock.
 
 | Parameter | Description |
 | --------- | ----------- |
-| startDate | Passcode start time (Date format YYYY-MM-DD HH:mm) |
-| endDate | Passcode end date (Date format YYYY-MM-DD HH:mm) |
+| startTime | Passcode start time (Date format YYYY-MM-DD HH:mm) |
+| endTime | Passcode end date (Date format YYYY-MM-DD HH:mm) |
 
 #### ** Node.js **
 
@@ -176,8 +176,8 @@ var request = require('request');
 
 var params = {
     lockId: 'lockId',
-    startDate: '2020-01-01 15:00'
-    endDate: '2020-01-01 16:00'
+    startTime: '2020-01-01 15:00'
+    endTime: '2020-01-01 16:00'
 };
 var lockId = 'lockId'
 
@@ -198,7 +198,7 @@ request.post({
   "success": true,
   "_id": "",
   "passcode": "1234567890",
-  "startDate": "",
-  "endDate": ""
+  "startTime": "",
+  "endTime": ""
 }
 ```
