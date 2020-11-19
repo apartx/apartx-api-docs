@@ -2,7 +2,7 @@
 
 # Playground
 
-https://codesandbox.io/embed/apartx-api-playground-jmrc8?fontsize=14&hidenavigation=1&theme=dark
+https://codesandbox.io/s/apartx-api-playground-jmrc8?file=/api.js
 
 # HTTP API
 
